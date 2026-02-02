@@ -1,0 +1,323 @@
+/* src/renderer/src/pages/NuevoServicio.css */
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+:root {
+  --primary-color: #3b82f6; /* Azul moderno */
+  --primary-hover: #2563eb;
+  --success-color: #22c55e; /* Verde éxito */
+  --bg-color: #f1f5f9;      /* Gris muy claro de fondo */
+  --card-bg: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #cbd5e1;
+  --focus-ring: rgba(59, 130, 246, 0.4);
+}
+
+/* Contenedor principal de la página */
+.page-container {
+  height: 100vh;
+  width: 100%;
+  /* min-height: 100vh; */
+  background-color: var(--bg-color);
+  background-color: rgba(000, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Tarjeta del formulario */
+.service-card {
+  background-color: var(--card-bg);
+  width: 100%;
+  max-width: 500px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  animation: fadeIn 0.4s ease-out;
+  position: relative;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-header {
+  background: var(--primary-color);
+  padding: 20px;
+  text-align: center;
+}
+
+.card-header h2 {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 30px;
+}
+
+/* Grupos de inputs */
+.form-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+/* Inputs generales */
+.input-control {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  background-color: #fff;
+  box-sizing: border-box; /* Importante para que el padding no rompa el ancho */
+}
+
+.input-control:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px var(--focus-ring);
+}
+
+/* Estado: Input Bloqueado / Cliente Encontrado */
+.input-control.is-locked {
+  background-color: #f0fdf4; /* Verde muy clarito */
+  border-color: var(--success-color);
+  color: #166534;
+  font-weight: 600;
+  cursor: not-allowed;
+}
+
+/* Select */
+.select-control {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: white;
+  cursor: pointer;
+  box-sizing: border-box; 
+}
+
+.select-control:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+/* Sección de Auto Nuevo (Sub-formulario) */
+.new-vehicle-section {
+  background-color: #f8fafc;
+  border: 2px dashed var(--border-color);
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Botón Principal */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.divider {
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 25px 0;
+}
+
+/* Animacion BTN  */
+.close-btn {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  cursor: pointer;
+  top: 15px;
+  right: 10px;
+}
+
+/* --- MULTI-SELECT PERSONALIZADO --- */
+
+.multiselect-container {
+  position: relative; /* Para que el menú flote respecto a esto */
+  width: 100%;
+}
+
+/* El botón que parece un input */
+.multiselect-trigger {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background-color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 45px;
+}
+
+.multiselect-trigger:hover {
+  border-color: var(--primary-color);
+}
+
+.selected-tags {
+  font-size: 0.9rem;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+}
+
+.placeholder-text {
+  color: #94a3b8;
+}
+
+/* El menú desplegable */
+.multiselect-dropdown {
+  position: absolute;
+  top: 105%; /* Justo debajo del trigger */
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  z-index: 50; /* Para que flote sobre todo lo demás */
+  max-height: 250px; /* Aquí controlamos la altura si son 20 servicios */
+  overflow-y: auto;  /* Scroll vertical si se pasa de altura */
+  animation: fadeIn 0.2s ease-out;
+}
+
+.multiselect-option {
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.1s;
+}
+
+.multiselect-option:hover {
+  background-color: #f8fafc;
+}
+
+.multiselect-option input[type="checkbox"] {
+  margin-right: 12px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary-color);
+  cursor: pointer;
+}
+
+.multiselect-option span {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  flex: 1; /* Ocupa el resto del espacio */
+}
+
+.multiselect-option .price {
+  font-weight: bold;
+  color: var(--primary-color);
+  font-size: 0.9rem;
+}
+
+/* Fondo transparente para cerrar al hacer clic afuera (opcional pero recomendado) */
+.click-outside {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 40;
+}
+
+.close-btn span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 25px;
+  height: 3px;
+  background-color: #000000;
+  transform-origin: center;
+  transition: transform 0.4s ease;
+}
+
+.close-btn span:first-child {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-btn span:last-child {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.close-btn:hover span {
+  transform: translate(-50%, -50%) rotate(225deg);
+}
+
+/* --- ESTILOS PARA MODO RESERVACIÓN --- */
+
+/* Cambio de color del header a Morado/Azul Oscuro para diferenciar */
+.header-reserva {
+    background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%) !important;
+}
+
+/* Animación para que el input de fecha aparezca suavemente */
+.slide-in {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilo para el input de fecha */
+input[type="datetime-local"] {
+    font-family: inherit;
+    color: #333;
+    font-weight: bold;
+}

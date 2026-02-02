@@ -1,0 +1,329 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.container-car {
+    height: 250px;
+    width: 400px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 16px;
+    
+    /* MODIFICACIÓN: Comentamos el color fijo para usar los dinámicos */
+    /* background-color: rgb(24, 201, 14); */
+    background-color: #e0e0e0; /* Color base por defecto */
+    
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    
+    /* Agregamos transición suave para cuando cambie de estado */
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* --- CLASES DE ESTADO (NUEVO) --- */
+/* Usamos tu verde original para FINALIZADO */
+.bg-espera { background-color: #e5383b; }      /* Rojo suave */
+.bg-proceso { background-color: #fee500; }     /* Amarillo suave */
+.bg-finalizado { background-color: rgb(24, 201, 14); } /* Tu verde original */
+.bg-reservacion { background-color: #90caf9; } /* Azul suave */
+
+
+.head-car {
+    width: 100%;
+    position: relative;
+    display: inherit;
+    align-items: center;
+    flex-direction: row;
+    height: 40px;
+}
+
+.head-car h2 {
+    /* CORRECCIÓN: font-family no sirve para tamaño, cambiamos a font-size */
+    font-size: 1.3rem; 
+}
+
+.head-car p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-left: 64px;
+    cursor: pointer;
+    
+    /* NECESARIO PARA EL POPUP: El popup se posicionará relativo a este texto */
+    position: relative; 
+}
+
+.head-car p img {
+    width: 25px;
+    height: 25px;
+    margin-left: 4px;
+}
+
+/* --- POPUP DETALLE (NUEVO) --- */
+.detail-popup {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 100%;       /* Debajo del texto */
+    left: 50%;       /* Centrado respecto al texto */
+    transform: translateX(-50%);
+    width: 220px;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 100;    /* Para que flote sobre todo */
+    font-size: 0.9rem;
+    text-align: left;
+    transition: opacity 0.2s;
+    pointer-events: none; /* Para que no estorbe al mouse */
+}
+
+/* Mostrar popup al hacer HOVER sobre el <p> */
+.head-car p:hover .detail-popup {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/* --- TUS ESTILOS DE LA X (INTACTOS) --- */
+.close-btn-car span {
+  position: absolute;
+  top: 5px;
+  right: -5px;
+  width: 20px;
+  height: 3px;
+  background-color: #000000;
+  transform-origin: center;
+  transition: transform 0.4s ease;
+  cursor: pointer;
+}
+
+.close-btn-car span:first-child {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-btn-car span:last-child {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.close-btn-car:hover span {
+  transform: translate(-50%, -50%) rotate(225deg);
+}
+
+.body-car {
+    max-height: 180px;
+    overflow-y: auto;
+    width: 100%;
+    margin-top: 12px;
+    display: inherit;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.body-car img {
+    width: 70px;
+    height: 70px;
+}
+
+.foot-car {
+    width: 100%;
+    height: 70px;
+    padding: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* AGREGADO: Espacio entre botones si hay 2 */
+}
+
+.btn-action {
+    height: 50px;
+    width: auto;
+    padding: 0 15px; /* AGREGADO: Padding lateral para que el texto respire */
+    display: inherit;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.4s ease;
+}
+.btn-action img {
+    width: 25px;
+    height: 25px;
+    margin: 8px;
+}
+
+
+/* Colores específicos de botones (opcional, para diferenciar Iniciar de Finalizar) */
+.btn-start { background-color: #003049; } 
+.btn-start { background-color: rgb(255, 255, 255); color: #000000; } 
+.btn-finish { background-color: #f59e0b; color: black; } 
+.btn-whats { background-color: #25D366; } 
+.btn-whats { background-color: #169d47; } 
+.btn-pay { background-color: #16a34a; }
+.btn-pay { background-color: #22577a; }
+
+.btn-start:hover { background-color: #e0d2d2; }
+.btn-pay:hover { background-color: #067ece; }
+.btn-whats:hover { background-color: #016a27; }
+.btn-finish:hover { background-color: #ffbd4a; }
+
+
+/* --- MODAL DE COBRO (NUEVO) --- */
+/* Estilos para la ventana emergente de pago */
+.cobro-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background-color: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; 
+    backdrop-filter: blur(4px);
+}
+
+.cobro-modal {
+    background: white;
+    width: 600px; /* MÁS GRANDE */
+    max-width: 90%;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 20px 25px rgba(0,0,0,0.3);
+    text-align: center;
+    font-family: 'Gill Sans', sans-serif;
+    display: flex;
+    flex-direction: column;
+    animation: popIn 0.3s ease;
+}
+
+.cobro-modal h2 { 
+    margin-bottom: 20px; 
+    color: #333; 
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.cobro-resumen {
+    background: #f1f5f9;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.cobro-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.4rem;
+    text-align: center;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+.cambio-text {
+    color: #16a34a;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.cobro-datos-cliente {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: #555;
+    background: #f8fafc;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* Lista de Servicios (Scroll si son muchos) */
+.cobro-lista-servicios {
+    max-height: 200px; /* Si hay muchos, hace scroll */
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+.servicio-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+    font-size: 1rem;
+}
+.servicio-item:last-child {
+    border-bottom: none;
+}
+.cobro-total-display {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #3b82f6;
+    margin: 10px 0 20px 0;
+    text-align: right;
+}
+.cobro-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.5rem;
+    text-align: center;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+.cambio-text {
+    color: #16a34a;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin-bottom: 25px;
+    height: 30px; /* Espacio fijo para que no brinque */
+}
+
+/* Botones alineados */
+.cobro-actions {
+    display: flex;
+    gap: 20px; /* Espacio entre botones */
+    margin-top: auto;
+}
+
+.btn-modal {
+    flex: 1; /* Ambos del mismo tamaño */
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-modal:active { transform: scale(0.98); }
+
+.btn-cancelar { background-color: #ef4444; } /* ROJO */
+.btn-confirmar { background-color: #16a34a; } /* VERDE */
+
+.btn-cancelar:hover { background-color: #dc2626; }
+.btn-confirmar:hover { background-color: #15803d; }

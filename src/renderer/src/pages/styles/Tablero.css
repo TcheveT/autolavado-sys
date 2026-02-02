@@ -1,0 +1,84 @@
+.board-services {
+    width: 75vw;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: rgb(209, 209, 209);
+}
+
+.head-board {
+    width: 100%;
+    height: 55px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.head-board h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.head-board img {
+    height: 40px;
+    width: 40px;
+}
+
+.board-panel {
+    width: 100%;
+    height: 140px;
+    background-color: rgba(000, 000, 000, 0.5);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+}
+.board-panel-item {
+    height: 90%;
+    width: 150px;
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.signal {
+    display: inherit;
+    justify-content: space-around;
+    align-items: center;
+    width: auto;
+}
+.signal p {
+    margin-right: 4px;
+    font-size: 1.2rem;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.num-signal {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 3.7rem;
+}
+.circulo {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+.rojo {
+    background-color: red;
+}
+.verde {
+    background-color: green;
+}
+.amarillo {
+    background-color: yellow;
+}
+.azul {
+    background-color: blue;
+}
+
+.space-cars {
+    padding: 14px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
