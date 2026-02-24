@@ -44,7 +44,7 @@ function Tablero( { nuevoCarro, setNuevoCarro }) {
     <div className="board-services">
       <div className="head-board">
         <h2>Servicios</h2>
-        {/* Botón opcional para forzar actualización manual */}
+        {/*QUITARRRRRR Botón opcional para forzar actualización manual */}
         <img 
           src={ botonPNG } 
           alt="Refrescar" 

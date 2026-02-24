@@ -164,4 +164,94 @@ export const setupHandlers = () => {
     `).run(id);
     return info.changes > 0;
   });
+
+  // --- DASHBOARD ADMINISTRATIVO (KPIs) ---
+  ipcMain.handle('get-kpis-mensuales', () => {
+    
+    // 1. VENTAS DEL MES ACTUAL
+    const ventasMes = db.prepare(`
+      SELECT SUM(total_final) as total, COUNT(*) as cantidad
+      FROM ordenes 
+      WHERE strftime('%Y-%m', fecha_entrada) = strftime('%Y-%m', 'now')
+      AND estado IN ('FINALIZADO', 'PAGADO')
+    `).get();
+
+    // 2. VENTAS DEL MES ANTERIOR (Para comparación)
+    const ventasMesAnterior = db.prepare(`
+      SELECT SUM(total_final) as total, COUNT(*) as cantidad
+      FROM ordenes 
+      WHERE strftime('%Y-%m', fecha_entrada) = strftime('%Y-%m', 'now', '-1 month')
+      AND estado IN ('FINALIZADO', 'PAGADO')
+    `).get();
+
+    // 3. VENTAS DE LA SEMANA ACTUAL (Lunes a Domingo)
+    const ventasSemana = db.prepare(`
+      SELECT SUM(total_final) as total, COUNT(*) as cantidad
+      FROM ordenes 
+      WHERE strftime('%Y-%W', fecha_entrada) = strftime('%Y-%W', 'now')
+      AND estado IN ('FINALIZADO', 'PAGADO')
+    `).get();
+
+    // 4. GRÁFICA: INGRESOS POR DÍA (Últimos 7 días o Mes actual)
+    // Aquí traemos los últimos 7 días con actividad
+    const graficaVentas = db.prepare(`
+      SELECT strftime('%d/%m', fecha_entrada) as dia, SUM(total_final) as venta
+      FROM ordenes
+      WHERE estado IN ('FINALIZADO', 'PAGADO') 
+      AND fecha_entrada >= date('now', '-7 days')
+      GROUP BY dia
+      ORDER BY fecha_entrada ASC
+    `).all();
+
+    // 5. GRÁFICA: SERVICIOS MÁS VENDIDOS (Pie Chart)
+    const topServicios = db.prepare(`
+      SELECT s.nombre, COUNT(od.servicio_id) as cantidad
+      FROM orden_detalles od
+      JOIN servicios s ON od.servicio_id = s.id
+      JOIN ordenes o ON od.orden_id = o.id
+      WHERE strftime('%Y-%m', o.fecha_entrada) = strftime('%Y-%m', 'now')
+      AND o.estado IN ('FINALIZADO', 'PAGADO')
+      GROUP BY s.nombre
+      ORDER BY cantidad DESC
+      LIMIT 5
+    `).all();
+
+    // 6. TOP 5 CLIENTES DEL MES
+    const topClientes = db.prepare(`
+      SELECT c.nombre, COUNT(o.id) as visitas, SUM(o.total_final) as gastado
+      FROM ordenes o
+      JOIN clientes c ON o.cliente_id = c.id
+      WHERE strftime('%Y-%m', o.fecha_entrada) = strftime('%Y-%m', 'now')
+      AND o.estado IN ('FINALIZADO', 'PAGADO')
+      GROUP BY c.id
+      ORDER BY visitas DESC
+      LIMIT 5
+    `).all();
+
+    // 7. PRODUCTIVIDAD DE EMPLEADOS (Servicios del mes actual)
+    const productividadEmpleados = db.prepare(`
+      SELECT e.nombre, COUNT(o.id) as total_servicios
+      FROM empleados e
+      -- Usamos LEFT JOIN para que salgan los empleados incluso si tienen 0 servicios
+      LEFT JOIN ordenes o ON e.id = o.empleado_id 
+         AND strftime('%Y-%m', o.fecha_entrada) = strftime('%Y-%m', 'now') 
+         AND o.estado IN ('FINALIZADO', 'PAGADO')
+      WHERE e.activo = 1
+      GROUP BY e.id
+      ORDER BY total_servicios DESC
+    `).all();
+
+    return {
+      mesActual: ventasMes,
+      mesAnterior: ventasMesAnterior,
+      semanaActual: ventasSemana,
+      graficaVentas,
+      topServicios,
+      topClientes,
+      productividadEmpleados
+    };
+  });
+
+
+
 };

@@ -7,7 +7,7 @@ import masPNG from '../assets/img/plus.png'
 import './styles/Inicio.css';
 import { useState } from 'react'
 
-function Inicio( { setNuevoServicioActivo, setEsReservacion } ) {
+function Inicio( { setNuevoServicioActivo, setEsReservacion, setDashboardActivo } ) {
 
     const [activeOption, setActiveOption] = useState("servicios");
 
@@ -15,6 +15,16 @@ function Inicio( { setNuevoServicioActivo, setEsReservacion } ) {
         setEsReservacion(true)
         setNuevoServicioActivo(true)
         setActiveOption("reservacion")
+    }
+
+    function cerrarDashboard() {
+        setActiveOption("servicios")
+        setDashboardActivo(false)
+    }
+
+    function activarDashboard() {
+        setActiveOption("dashboard")
+        setDashboardActivo(true)
     }
 
 
@@ -30,20 +40,24 @@ function Inicio( { setNuevoServicioActivo, setEsReservacion } ) {
 
             <div className='container-services'>
                 <div className='option-services'> 
-                    <div className={`selected-service ${activeOption === "servicios" ? "option-focus selected-service-focus" : ""}`} onClick={() => { setActiveOption("servicios") }  }>
+                    <div className={`selected-service ${activeOption === "servicios" ? "option-focus selected-service-focus" : ""}`} onClick={ cerrarDashboard }>
                         <p className='opt-services'> <img src= { carPNG } alt="" />Servicios</p>
                         {
-                            activeOption === "servicios" ? <p className='opt-services opt-nuevo' onClick={() => { setNuevoServicioActivo(true) }  }><img src={ masPNG } alt="icono mas"  /> Nuevo Servicio </p> : ''
-                        }
+                            
+                            activeOption === "servicios" ? <> <p className='opt-services opt-nuevo' onClick={() => { setNuevoServicioActivo(true) }  }><img src={ masPNG } alt="icono mas"  /> Nuevo Servicio </p> 
+                            <p className='opt-services opt-nuevo' onClick={ nuevaReservacion }><img src= { calendarPNG } alt="" />Reservación</p></>: ''
+                            
+                        } 
+                        
                         
                     </div>
                     
 
-                    <p className={`selected-service ${activeOption === "reservacion" ? "option-focus selected-service-hover" : ""}`} onClick={ nuevaReservacion }><img src= { calendarPNG } alt="" />Reservación</p>
+                    
                 </div>
                 
                 <div className='option-services'>
-                    <p className={`selected-service ${activeOption === "dashboard" ? "option-focus selected-service-hover" : ""}`} onClick={() => setActiveOption("dashboard")}><img src={ dashboardPNG } alt="image dashboard" />Dashboard</p> 
+                    <p className={`selected-service ${activeOption === "dashboard" ? "option-focus selected-service-hover" : ""}`} onClick={ activarDashboard }><img src={ dashboardPNG } alt="image dashboard" />Dashboard</p> 
                 </div>
                 
             </div>

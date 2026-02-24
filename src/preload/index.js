@@ -12,6 +12,7 @@ const api = {
   pagarOrden: (data) => ipcRenderer.invoke('pagar-orden', data),
   buscarCliente: (telefono) => ipcRenderer.invoke('buscar-cliente', telefono),
   abrirLinkExterno: (url) => ipcRenderer.invoke('abrir-link-externo', url),
+  getKpisMensuales: () => ipcRenderer.invoke('get-kpis-mensuales'),
   crearOrden: (datos) => ipcRenderer.invoke('crear-orden', datos)
 }
 

@@ -106,7 +106,7 @@ function Cars( {nuevoCarro, setNuevoCarro } ) {
     });
   };
 
-  const handleWhatsApp = (telefono, cliente) => {
+  const handleWhatsApp = (telefono, cliente, tipo = '', fecha) => {
     // 1. Limpieza agresiva: Quitar todo lo que NO sea un número
     let telLimpio = telefono.replace(/\D/g, ''); 
     
@@ -116,12 +116,18 @@ function Cars( {nuevoCarro, setNuevoCarro } ) {
       telLimpio = `52${telLimpio}`;
     } 
     // Si por alguna razón ya traía el 52 (12 dígitos), lo dejamos así.
+
+    let fechaReservacion;
+    if(fecha){
+      fechaReservacion = new Date(fecha).toLocaleString([], {day: '2-digit', month: '2-digit', hour: '2-digit', minute:'2-digit'})
+    }
     
     const mensaje = `Hola ${cliente}, tu auto ya está listo. ¡Te esperamos!`;
+    const mensajeReservacion = `Hola ${cliente}, le recordamos que cuenta con una reservación programada para el día ${fecha} te esperamos en Autodetallado Nitto.`;
     
     // 3. Usamos la API universal de WhatsApp
     // Esta URL funciona mejor porque el navegador se encarga de "despertar" a la App correctamente
-    const url = `https://api.whatsapp.com/send?phone=${telLimpio}&text=${encodeURIComponent(mensaje)}`;
+    const url = `https://api.whatsapp.com/send?phone=${telLimpio}&text=${tipo === 'finalizado' ? encodeURIComponent(mensaje) : encodeURIComponent(mensajeReservacion)}`;
     
     // 4. Abrimos fuera de Electron
     window.api.abrirLinkExterno(url);
@@ -197,7 +203,20 @@ function Cars( {nuevoCarro, setNuevoCarro } ) {
                     <p><b>Cliente:</b> {auto.cliente}</p>
                     <p><b>Vehículo:</b> {auto.vehiculo}</p>
                     <p><b>Placa:</b> {auto.placa || '---'}</p>
-                    <p><b>Hora:</b> {new Date(auto.fecha_entrada).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</p>
+                    
+                    {auto.estado === 'RESERVACION' ? (
+                        // Caso Reservación: Muestra Día/Mes y Hora (Ej: 15/10 14:30)
+                        <p style={{color: '#d32f2f'}}>
+                            <b>Cita:</b> {new Date(auto.fecha_entrada).toLocaleString([], {day: '2-digit', month: '2-digit', hour: '2-digit', minute:'2-digit'})}
+                        </p>
+                    ) : (
+                        // Caso Normal: Solo muestra la Hora (Ej: 14:30)
+                        <p>
+                            <b>Hora:</b> {new Date(auto.fecha_entrada).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}
+                        </p>
+                    )}
+                    {/* ------------------- */}
+
                     <p><b>Total:</b> ${auto.total_final}</p>
                 </div>
                 <img src={ getIconoEstado(auto.estado) } alt="estado" />
@@ -207,7 +226,7 @@ function Cars( {nuevoCarro, setNuevoCarro } ) {
             <div className='foot-car'>
                 
                 {/* Botón para Iniciar */}
-                {auto.estado === 'EN_ESPERA' && (
+                {auto.estado === 'EN_ESPERA'  && (
                   <button className='btn-action btn-start' onClick={() => handleCambioFase(auto.id, 'EN_ESPERA')}>
                      Iniciar
                   </button>
@@ -220,10 +239,24 @@ function Cars( {nuevoCarro, setNuevoCarro } ) {
                   </button>
                 )}
 
+                {/* Botón para Reservacion */}
+                {auto.estado === 'RESERVACION'  && (
+                  <>
+                    <button className='btn-action btn-start' onClick={() => handleCambioFase(auto.id, 'EN_ESPERA')}>
+                      Iniciar
+                    </button>
+                    <button className='btn-action btn-whats' onClick={() => handleWhatsApp(auto.telefono, auto.cliente, 'reservacion', auto.fecha_entrada)}>
+                        <img src={ whatsPNG } alt="ws" /> Mensaje
+                    </button>
+                  </>
+                  
+                  
+                )}
+
                 {/* Botones Finales */}
                 {auto.estado === 'FINALIZADO' && (
                   <>
-                    <button className='btn-action btn-whats' onClick={() => handleWhatsApp(auto.telefono, auto.cliente)}>
+                    <button className='btn-action btn-whats' onClick={() => handleWhatsApp(auto.telefono, auto.cliente, 'finalizado', false)}>
                         <img src={ whatsPNG } alt="ws" /> Mensaje
                     </button>
                     <button className='btn-action btn-pay' onClick={() => abrirCobro(auto)}>

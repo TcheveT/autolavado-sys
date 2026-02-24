@@ -168,7 +168,7 @@ export default function NuevoServicio({
                     value={fechaReserva}
                     min={minFecha} // <--- ESTO BLOQUEA LOS DÍAS PASADOS EN EL CALENDARIO
                     onChange={(e) => setFechaReserva(e.target.value)}
-                    style={{border: '2px solid #8b5cf6'}} 
+                    style={{border: '2px solid #90caf9'}} 
                 />
              </div>
           )}
@@ -241,7 +241,7 @@ export default function NuevoServicio({
           <button 
             type="submit" 
             className="btn-primary"
-            style={esReservacion ? {backgroundColor: '#8b5cf6'} : {}}
+            style={esReservacion ? {backgroundColor: '#90caf9'} : {backgroundColor: 'rgb(24, 201, 14)'}}
           >
             {esReservacion ? 'AGENDAR CITA' : 'REGISTRAR ORDEN'}
           </button>

@@ -9,6 +9,7 @@ export const initDB = () => {
       fecha_nacimiento TEXT,
       telefono TEXT,
       contacto_emergencia TEXT,
+      fecha_contratacion DATE DEFAULT CURRENT_DATE, -- <--- NUEVO CAMPO
       activo INTEGER DEFAULT 1
     );
   `);
@@ -43,6 +44,15 @@ export const initDB = () => {
     );
   `);
 
+  // NUEVA TABLA: ADMIN (Para futuros inicios de sesión)
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS admin (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      usuario TEXT UNIQUE NOT NULL,
+      password TEXT NOT NULL
+    );
+  `);
+
   // 5. ORDENES (CABECERA - La visita en general)
   // Aquí guardamos QUIÉN lo hizo (empleado_id) y CUÁNDO.
   db.exec(`
@@ -74,22 +84,28 @@ export const initDB = () => {
   `);
 
   // --- DATOS DE PRUEBA (SEEDS) ---
-  
-  // Servicios iniciales
-  // const countServ = db.prepare('SELECT count(*) as c FROM servicios').get();
-  // if (countServ.c === 0) {
-  //   const insert = db.prepare('INSERT INTO servicios (nombre, precio) VALUES (?, ?)');
-  //   insert.run('Lavado Básico', 150);
-  //   insert.run('Aspirado Profundo', 100);
-  //   insert.run('Encerado', 200);
-  //   insert.run('Lavado de Motor', 250);
-  // }
 
-  // // Empleados iniciales
-  // const countEmp = db.prepare('SELECT count(*) as c FROM empleados').get();
-  // if (countEmp.c === 0) {
-  //   const insert = db.prepare('INSERT INTO empleados (nombre, telefono) VALUES (?, ?)');
-  //   insert.run('Juan Pérez (General)', '333-111-1111');
-  //   insert.run('María López (Detallado)', '333-222-2222');
-  // }
+  // Insertar Admin por defecto si no existe
+  const countAdmin = db.prepare('SELECT count(*) as c FROM admin').get();
+  if (countAdmin.c === 0) {
+    db.prepare("INSERT INTO admin (usuario, password) VALUES ('admin', 'ADMIN')").run();
+  }
+  
+  //Servicios iniciales
+  const countServ = db.prepare('SELECT count(*) as c FROM servicios').get();
+  if (countServ.c === 0) {
+    const insert = db.prepare('INSERT INTO servicios (nombre, precio) VALUES (?, ?)');
+    insert.run('Lavado Básico', 150);
+    insert.run('Aspirado Profundo', 100);
+    insert.run('Encerado', 200);
+    insert.run('Lavado de Motor', 250);
+  }
+
+  // Empleados iniciales
+  const countEmp = db.prepare('SELECT count(*) as c FROM empleados').get();
+  if (countEmp.c === 0) {
+    const insert = db.prepare('INSERT INTO empleados (nombre, telefono) VALUES (?, ?)');
+    insert.run('Juan Pérez (General)', '333-111-1111');
+    insert.run('María López (Detallado)', '333-222-2222');
+  }
 };
