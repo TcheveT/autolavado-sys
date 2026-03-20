@@ -1,0 +1,91 @@
+/* Contenedor flotante principal */
+.panel-nav-floating {
+  position: fixed;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  background-color: #ffffff;
+  width: 70px; /* Ancho inicial (solo iconos) */
+  height: auto;
+  min-height: 300px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  z-index: 2000;
+  overflow: hidden;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* Al hacer hover, el panel se expande */
+.panel-nav-floating:hover {
+  width: 220px;
+}
+
+/* Opciones del menú */
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 24px; /* 24px para centrar el icono de 22px en los 70px iniciales */
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.2s ease;
+  position: relative;
+  text-decoration: none;
+}
+
+/* Estado activo y hover */
+.nav-item:hover, .nav-item.active {
+  color: #3b82f6; /* Azul principal */
+  background-color: #f1f5f9;
+}
+
+/* Línea indicadora para el elemento activo */
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10%;
+  height: 80%;
+  width: 4px;
+  background-color: #3b82f6;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Configuración de los iconos SVG */
+.nav-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0; /* Evita que el icono se aplaste */
+  transition: transform 0.2s;
+}
+
+.nav-item:hover .nav-icon {
+  transform: scale(1.1);
+}
+
+/* Texto de las opciones */
+.nav-text {
+  margin-left: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  white-space: nowrap; /* Evita que el texto baje de línea */
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Mostrar texto cuando el panel está expandido */
+.panel-nav-floating:hover .nav-text {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Separador decorativo opcional */
+.nav-divider {
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 15px 20px;
+}

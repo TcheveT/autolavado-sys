@@ -1,7 +1,7 @@
 {
   "name": "autolavado-sys",
   "version": "1.0.0",
-  "description": "An Electron application with React",
+  "description": "Control de Autolavado",
   "main": "./out/main/index.js",
   "author": "example.com",
   "homepage": "https://electron-vite.org",
@@ -23,9 +23,12 @@
     "better-sqlite3": "^12.6.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "jspdf": "^4.2.0",
+    "jspdf-autotable": "^5.0.7",
     "react-router-dom": "^7.12.0",
     "recharts": "^3.7.0",
-    "sweetalert2": "^11.26.17"
+    "sweetalert2": "^11.26.17",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^2.1.0",
@@ -42,5 +45,22 @@
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "vite": "^7.2.6"
+  },
+  "build": {
+    "appId": "com.tuautolavado.app",
+    "productName": "Autolavado Pro",
+    "directories": {
+      "buildResources": "build"
+    },
+    "win": {
+      "icon": "build/icon.ico",
+      "target": "nsis"
+    },
+    "mac": {
+      "icon": "build/icon.icns"
+    },
+    "linux": {
+      "icon": "build/icon.png"
+    }
   }
 }

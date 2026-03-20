@@ -1,0 +1,63 @@
+.analisis-container {
+  animation: fadeIn 0.3s ease-out;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.analisis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.analisis-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  max-height: 338px;
+  overflow: auto;
+}
+
+.analisis-card h3 {
+  margin-top: 0;
+  color: #334155;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Listas internas */
+.analisis-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px dashed #e2e8f0;
+}
+.analisis-list-item:last-child { border-bottom: none; }
+
+.item-main-text { font-weight: bold; color: #1e293b; font-size: 1.05rem; }
+.item-sub-text { font-size: 0.85rem; color: #64748b; }
+.item-value-text { font-weight: bold; font-size: 1.1rem; }
+
+.text-gold { color: #d97706; } /* Dorado para los mejores */
+.text-danger { color: #ef4444; } /* Rojo para inactivos */
+.text-success { color: #16a34a; } /* Verde para dinero */
+
+/* Input de comisión */
+.comision-input {
+  width: 60px;
+  padding: 4px 8px;
+  border: 2px solid #cbd5e1;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
+  color: #3b82f6;
+  outline: none;
+}
+.comision-input:focus { border-color: #3b82f6; }

@@ -7,7 +7,7 @@ import masPNG from '../assets/img/plus.png'
 import './styles/Inicio.css';
 import { useState } from 'react'
 
-function Inicio( { setNuevoServicioActivo, setEsReservacion, setDashboardActivo } ) {
+function Inicio( { setNuevoServicioActivo, setEsReservacion, setDashboardActivo, setAdminActivo } ) {
 
     const [activeOption, setActiveOption] = useState("servicios");
 
@@ -25,6 +25,10 @@ function Inicio( { setNuevoServicioActivo, setEsReservacion, setDashboardActivo 
     function activarDashboard() {
         setActiveOption("dashboard")
         setDashboardActivo(true)
+    }
+
+    function activarAdmin() {
+        setAdminActivo(true)
     }
 
 
@@ -51,9 +55,7 @@ function Inicio( { setNuevoServicioActivo, setEsReservacion, setDashboardActivo 
                         
                         
                     </div>
-                    
-
-                    
+                       
                 </div>
                 
                 <div className='option-services'>
@@ -64,7 +66,7 @@ function Inicio( { setNuevoServicioActivo, setEsReservacion, setDashboardActivo 
 
             <div className='divider'></div>
             
-            <p className='gear-config'> <img src={ gearPNG } alt="image gear" />Configuración</p>
+            <p className='gear-config' onClick={ activarAdmin }> <img src={ gearPNG } alt="image gear" />Configuración</p>
 
         </div>
     </>

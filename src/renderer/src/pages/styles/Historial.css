@@ -1,0 +1,86 @@
+.historial-admin-container {
+  padding: 6px;
+  animation: fadeIn 0.3s ease-out;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.historial-header {
+  margin-bottom: 20px;
+  color: #1e293b;
+  border-left: 5px solid #0d9488; /* Verde Esmeralda/Teal */
+  padding-left: 15px;
+  flex-shrink: 0;
+}
+
+/* --- TARJETA DE RESUMEN (Reemplaza al botón Agregar) --- */
+.historial-summary-row {
+  background: rgba(13, 148, 136, 0.05);
+  border: 2px solid #0d9488;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  color: #0d9488;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.1);
+}
+
+.summary-text { font-size: 1.2rem; font-weight: bold; }
+.summary-total { font-size: 2rem; font-weight: 900; }
+
+/* --- BARRA DE FILTROS --- */
+.filtros-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.filtro-input {
+  padding: 12px 15px;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+  flex: 1;
+}
+
+.filtro-input:focus { border-color: #0d9488; }
+.filtro-date { flex: 0.5; } /* Los de fecha son un poco más pequeños */
+
+/* --- CONTENEDOR DE LA LISTA --- */
+.historial-list-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  overflow-y: auto;
+  max-height: calc(100vh - 300px);
+  padding: 10px 20px;
+}
+
+.historial-list-container::-webkit-scrollbar { width: 8px; }
+.historial-list-container::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; }
+
+.historial-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.2s;
+}
+.historial-list-item:hover { background-color: #f8fafc; border-radius: 8px; }
+
+/* Textos de la fila */
+.historial-col-fecha { width: 150px; color: #64748b; font-size: 0.9rem; font-weight: bold; }
+.historial-col-main { flex: 1; display: flex; flex-direction: column; }
+.historial-cliente { font-size: 1.1rem; font-weight: 600; color: #333; margin-bottom: 4px; }
+.historial-detalles { font-size: 0.85rem; color: #64748b; }
+.historial-empleado { color: #0d9488; font-weight: bold; }
+.historial-col-precio { font-size: 1.2rem; font-weight: bold; color: #16a34a; width: 100px; text-align: right; }

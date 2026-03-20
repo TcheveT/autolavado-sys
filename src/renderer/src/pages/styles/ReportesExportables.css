@@ -1,0 +1,94 @@
+.reportes-container {
+  animation: fadeIn 0.3s ease-out;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.reportes-filtros-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+.filtros-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filtro-group label {
+  display: block;
+  font-weight: bold;
+  color: #475569;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.filtro-group input, .filtro-group select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  box-sizing: border-box;
+}
+.filtro-group input:focus, .filtro-group select:focus { border-color: #3b82f6; }
+
+/* Botones rápidos de fechas */
+.quick-dates {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-quick-date {
+  background: white;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-quick-date:hover { background: #e2e8f0; color: #1e293b; }
+
+/* Botones de Exportar */
+.export-actions {
+  display: flex;
+  gap: 15px;
+  border-top: 1px dashed #cbd5e1;
+  padding-top: 20px;
+}
+
+.btn-export {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.1s;
+}
+.btn-export:active { transform: scale(0.98); }
+
+.btn-pdf { background-color: #ef4444; } /* Rojo PDF */
+.btn-pdf:hover { background-color: #dc2626; }
+
+.btn-excel { background-color: #16a34a; } /* Verde Excel */
+.btn-excel:hover { background-color: #15803d; }
+
+/* Tabla de previsualización */
+.preview-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.preview-table th { background: #f1f5f9; color: #475569; padding: 12px; text-align: left; border-bottom: 2px solid #cbd5e1; }
+.preview-table td { padding: 12px; border-bottom: 1px solid #e2e8f0; color: #334155; }

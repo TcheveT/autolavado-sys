@@ -19,13 +19,15 @@ export default function NuevoServicio({
   const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState('nuevo');
   const [datosNuevoAuto, setDatosNuevoAuto] = useState({ modelo: '', placa: '' });
   const [empleadoSeleccionado, setEmpleadoSeleccionado] = useState('');
-  const [serviciosSeleccionados, setServiciosSeleccionados] = useState([]); 
+  const [serviciosSeleccionados, setServiciosSeleccionados] = useState([]);
+  
+  // ESTADOS DE LOS DROPDOWNS (Separados)
+  const [dropdownAbierto, setDropdownAbierto] = useState(false); // Servicios
+  const [dropdownEmpleadoAbierto, setDropdownEmpleadoAbierto] = useState(false); // Empleados
   
   // ESTADOS PARA FECHA
   const [fechaReserva, setFechaReserva] = useState('');
-  const [minFecha, setMinFecha] = useState(''); // <--- NUEVO: Para bloquear fechas pasadas
-
-  const [dropdownAbierto, setDropdownAbierto] = useState(false);
+  const [minFecha, setMinFecha] = useState(''); 
 
   useEffect(() => {
     window.api.getServicios().then(setServiciosCatalogo);
@@ -33,10 +35,8 @@ export default function NuevoServicio({
 
     // CALCULAR FECHA MÍNIMA (AHORA MISMO)
     const now = new Date();
-    // Ajuste de zona horaria para que el input lo entienda (formato YYYY-MM-DDTHH:MM)
     now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
     setMinFecha(now.toISOString().slice(0, 16));
-
   }, []);
 
   const toggleServicio = (id) => {
@@ -88,7 +88,6 @@ export default function NuevoServicio({
             return Swal.fire('Error', 'Debes seleccionar fecha y hora', 'warning');
         }
         
-        // VALIDACIÓN LÓGICA: NO PERMITIR FECHAS PASADAS
         const fechaSeleccionada = new Date(fechaReserva);
         const fechaActual = new Date();
         if (fechaSeleccionada < fechaActual) {
@@ -131,6 +130,7 @@ export default function NuevoServicio({
       setEsReservacion(false);
       setNuevoCarro(!nuevoCarro);
       setDropdownAbierto(false); 
+      setDropdownEmpleadoAbierto(false); // Reset del nuevo estado
 
     } catch (error) {
       console.error(error);
@@ -145,9 +145,15 @@ export default function NuevoServicio({
 
   return (
     <div className="page-container">
-      {dropdownAbierto && <div className="click-outside" onClick={() => setDropdownAbierto(false)}></div>}
+      
+      {(dropdownAbierto || dropdownEmpleadoAbierto) && (
+        <div 
+          className="click-outside" 
+          onClick={() => { setDropdownAbierto(false); setDropdownEmpleadoAbierto(false); }}
+        ></div>
+      )}
 
-      <div className="service-card">
+      <div className="service-card dynamic-card">
         <div className="close-btn" onClick={ cerrarVentanaServicio }>
           <span></span>
           <span></span>
@@ -157,6 +163,7 @@ export default function NuevoServicio({
             <h2>{esReservacion ? '📅 Nueva Reservación' : '🚘 Nuevo Ingreso'}</h2>
         </div>
         
+        {/* LE QUITAMOS EL MAX-HEIGHT Y EL SCROLL FORZADO AQUÍ */}
         <form onSubmit={handleSubmit} className="card-body">
           
           {esReservacion && (
@@ -166,21 +173,23 @@ export default function NuevoServicio({
                     type="datetime-local" 
                     className="input-control" 
                     value={fechaReserva}
-                    min={minFecha} // <--- ESTO BLOQUEA LOS DÍAS PASADOS EN EL CALENDARIO
+                    min={minFecha}
                     onChange={(e) => setFechaReserva(e.target.value)}
                     style={{border: '2px solid #90caf9'}} 
                 />
              </div>
           )}
 
-          <div className="form-group">
-            <label>📱 Teléfono</label>
-            <input className="input-control" value={telefono} onChange={e => setTelefono(e.target.value)} onBlur={handleBuscarTelefono} placeholder="Buscar..." autoFocus />
-          </div>
-          
-          <div className="form-group">
-            <label>👤 Nombre</label>
-            <input className={`input-control ${cliente.id ? 'is-locked' : ''}`} value={cliente.nombre} onChange={e => setCliente({...cliente, nombre: e.target.value})} disabled={!!cliente.id} />
+          <div className="dynamic-grid">
+            <div className="form-group">
+              <label>📱 Teléfono</label>
+              <input className="input-control" value={telefono} onChange={e => setTelefono(e.target.value)} onBlur={handleBuscarTelefono} placeholder="Buscar..." autoFocus />
+            </div>
+            
+            <div className="form-group">
+              <label>👤 Nombre</label>
+              <input className={`input-control ${cliente.id ? 'is-locked' : ''}`} value={cliente.nombre} onChange={e => setCliente({...cliente, nombre: e.target.value})} disabled={!!cliente.id} />
+            </div>
           </div>
 
           <div className="divider"></div>
@@ -193,45 +202,95 @@ export default function NuevoServicio({
                 <option value="nuevo">➕ Otro...</option>
               </select>
             )}
+            
             {vehiculoSeleccionado === 'nuevo' && (
-              <div className="new-vehicle-section">
-                <input className="input-control" placeholder="Modelo" value={datosNuevoAuto.modelo} onChange={e => setDatosNuevoAuto({...datosNuevoAuto, modelo: e.target.value})} style={{marginBottom: 5}} />
-                <input className="input-control" placeholder="Placa" value={datosNuevoAuto.placa} onChange={e => setDatosNuevoAuto({...datosNuevoAuto, placa: e.target.value})} />
+              <div className="new-vehicle-section new-vehicle-grid">
+                <input className="input-control" placeholder="Modelo (Ej. Honda Civic)" value={datosNuevoAuto.modelo} onChange={e => setDatosNuevoAuto({...datosNuevoAuto, modelo: e.target.value})} style={{marginBottom: 5}}/>
+                <input className="input-control" placeholder="Placa (Ej. ABC-123)" value={datosNuevoAuto.placa} onChange={e => setDatosNuevoAuto({...datosNuevoAuto, placa: e.target.value})} />
               </div>
             )}
           </div>
 
           <div className="divider"></div>
 
-          <div className="form-group">
-            <label>👷 Asignar a Empleado</label>
-            <select className="select-control" value={empleadoSeleccionado} onChange={e => setEmpleadoSeleccionado(e.target.value)}>
-              <option value="">-- Seleccionar Responsable --</option>
-              {empleados.map(emp => (
-                <option key={emp.id} value={emp.id}>{emp.nombre}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label>🧼 Servicios (Selección Múltiple)</label>
-            <div className="multiselect-container">
-              <div className="multiselect-trigger" onClick={() => setDropdownAbierto(!dropdownAbierto)}>
-                {getTextoSeleccionado()}
-                <span style={{color: '#64748b'}}>▼</span>
-              </div>
-              {dropdownAbierto && (
-                <div className="multiselect-dropdown">
-                  {serviciosCatalogo.map(servicio => (
-                    <div key={servicio.id} className="multiselect-option" onClick={() => toggleServicio(servicio.id)}>
-                      <input type="checkbox" checked={serviciosSeleccionados.includes(servicio.id)} readOnly />
-                      <span>{servicio.nombre}</span>
-                      <span className="price">${servicio.precio}</span>
-                    </div>
-                  ))}
+          <div className="dynamic-grid">
+            
+            <div className="form-group">
+              <label>🧼 Servicios (Selección Múltiple)</label>
+              <div className="multiselect-container">
+                <div 
+                  className="multiselect-trigger" 
+                  onClick={() => { setDropdownAbierto(!dropdownAbierto); setDropdownEmpleadoAbierto(false); }}
+                >
+                  {getTextoSeleccionado()}
+                  <span style={{ fontSize: '0.8rem', color: '#64748b' }}>▼</span>
                 </div>
+                {dropdownAbierto && (
+                  <div className="multiselect-dropdown">
+                    {serviciosCatalogo.map(servicio => (
+                      <div key={servicio.id} className="multiselect-option" onClick={() => toggleServicio(servicio.id)}>
+                        <input type="checkbox" checked={serviciosSeleccionados.includes(servicio.id)} readOnly />
+                        <span>{servicio.nombre}</span>
+                        <span className="price">${servicio.precio}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="form-group" style={{ position: 'relative' }}>
+              <label>👷 Asignar a Empleado</label>
+              
+              <div 
+                className="select-control" 
+                onClick={() => { setDropdownEmpleadoAbierto(!dropdownEmpleadoAbierto); setDropdownAbierto(false); }}
+                onMouseEnter={(e) => e.currentTarget.style.borderColor = '#3b82f6'}
+                onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}
+                style={{ 
+                  cursor: 'pointer', display: 'flex', justifyContent: 'space-between', 
+                  alignItems: 'center', backgroundColor: 'white', transition: 'border-color 0.2s' 
+                }}
+              >
+                <span>
+                  {empleadoSeleccionado 
+                    ? empleados.find(emp => emp.id === empleadoSeleccionado)?.nombre 
+                    : <span className="placeholder-text">-- Seleccionar Responsable --</span>}
+                </span>
+                <span style={{ fontSize: '0.8rem', color: '#64748b' }}>▼</span>
+              </div>
+
+              {dropdownEmpleadoAbierto && (
+                <ul style={{
+                  position: 'absolute', top: '100%', left: 0, right: 0, maxHeight: '135px',
+                  overflowY: 'auto', backgroundColor: 'white', border: '1px solid #cbd5e1',
+                  borderRadius: '8px', margin: '5px 0 0 0', padding: 0, listStyle: 'none',
+                  zIndex: 50, boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                }}>
+                  <li 
+                    style={{ padding: '10px 15px', cursor: 'pointer', borderBottom: '1px solid #f1f5f9' }}
+                    onClick={() => { setEmpleadoSeleccionado(''); setDropdownEmpleadoAbierto(false); }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f8fafc'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                  >
+                    <span className="placeholder-text">-- Seleccionar Responsable --</span>
+                  </li>
+                  
+                  {empleados.map(emp => (
+                    <li 
+                      key={emp.id}
+                      style={{ padding: '10px 15px', cursor: 'pointer', borderBottom: '1px solid #f1f5f9' }}
+                      onClick={() => { setEmpleadoSeleccionado(emp.id); setDropdownEmpleadoAbierto(false); }}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f8fafc'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                    >
+                      {emp.nombre}
+                    </li>
+                  ))}
+                </ul>
               )}
             </div>
+            
           </div>
 
           <div style={{ textAlign: 'right', marginTop: '20px', fontSize: '1.2rem', fontWeight: 'bold', color: '#3b82f6' }}>

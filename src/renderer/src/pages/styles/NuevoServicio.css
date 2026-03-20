@@ -231,7 +231,7 @@
   border-radius: 8px;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   z-index: 50; /* Para que flote sobre todo lo demás */
-  max-height: 250px; /* Aquí controlamos la altura si son 20 servicios */
+  max-height: 130px; /* Aquí controlamos la altura si son 20 servicios */
   overflow-y: auto;  /* Scroll vertical si se pasa de altura */
   animation: fadeIn 0.2s ease-out;
 }
@@ -321,4 +321,55 @@ input[type="datetime-local"] {
     font-family: inherit;
     color: #333;
     font-weight: bold;
+}
+
+/* --- DISEÑO DINÁMICO (ALTO VS ANCHO) --- */
+
+/* Por defecto (Para tu monitor de 27"): Tarjeta delgada y en lista vertical */
+.dynamic-card {
+  max-width: 450px; 
+  width: 95%;
+  transition: max-width 0.3s ease;
+}
+
+.dynamic-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- DISEÑO DINÁMICO (ALTO VS ANCHO) --- */
+
+/* Por defecto (Para tu monitor grande): Tarjeta de ancho normal, sin scroll forzado */
+.dynamic-card {
+  max-width: 550px; /* <--- Más ancho para que los elementos respiren y no se alarguen */
+  width: 95%;
+  transition: all 0.3s ease;
+}
+
+.dynamic-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+/* LA MAGIA: Si la pantalla es "chaparrita" (menos de 950px de alto), se hace ancha a 2 columnas para evitar el scroll */
+@media (max-height: 950px) and (min-width: 750px) {
+  .dynamic-card {
+    max-width: 800px; /* Ensanchamos la tarjeta */
+  }
+  
+  .dynamic-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dividimos en 2 columnas */
+    gap: 20px;
+  }
+  
+  .dynamic-grid .form-group {
+    margin-bottom: 0; 
+  }
+  
+  .new-vehicle-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
 }

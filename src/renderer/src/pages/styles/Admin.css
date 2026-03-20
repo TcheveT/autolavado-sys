@@ -1,0 +1,75 @@
+.admin-login-container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro para resaltar la tarjeta */
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 1000;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.admin-card {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  text-align: center;
+  animation: fadeIn 0.3s ease-out;
+  position: relative;
+}
+
+.admin-card h2 {
+  color: #1e293b;
+  margin-bottom: 25px;
+  font-size: 1.5rem;
+}
+
+.admin-card .form-group {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.admin-card label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #64748b;
+}
+
+.admin-card input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.admin-card input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.btn-login {
+  width: 100%;
+  padding: 15px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s;
+}
+
+.btn-login:hover {
+  background-color: #2563eb;
+}

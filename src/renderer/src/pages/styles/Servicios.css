@@ -1,0 +1,170 @@
+.servicios-admin-container {
+  padding: 6px;
+  animation: fadeIn 0.3s ease-out;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.servicios-header {
+  margin-bottom: 20px;
+  color: #1e293b;
+  border-left: 5px solid #3b82f6;
+  padding-left: 15px;
+  flex-shrink: 0;
+}
+
+/* --- BOTÓN GIGANTE DE AGREGAR (Formato Fila) --- */
+.servicio-add-row {
+  background: rgba(59, 130, 246, 0.05);
+  border: 2px dashed #3b82f6;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #3b82f6;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.servicio-add-row:hover {
+  background: #3b82f6;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  border-style: solid;
+}
+
+.add-icon-row {
+  width: 28px;
+  height: 28px;
+  margin-right: 12px;
+}
+
+.add-text-row {
+  font-size: 1.3rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+
+/* --- CONTENEDOR DE LA LISTA (Con Overflow / Scroll) --- */
+.servicios-list-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  overflow-y: auto; /* Aquí habilitamos el scroll */
+  max-height: calc(100vh - 220px); /* Ajusta su altura al tamaño de la pantalla */
+  padding: 10px 20px;
+}
+
+/* Personalizar la barra de scroll (opcional pero se ve mejor) */
+.servicios-list-container::-webkit-scrollbar {
+  width: 8px;
+}
+.servicios-list-container::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 4px;
+}
+
+/* Cada fila de servicio */
+.servicio-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.2s, border-radius 0.2s;
+}
+
+.servicio-list-item:last-child {
+  border-bottom: none;
+}
+
+.servicio-list-item:hover {
+  background-color: #f8fafc;
+  border-radius: 8px;
+}
+
+/* Información del servicio */
+.servicio-info-row {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.servicio-nombre-row {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  flex: 1;
+}
+
+.servicio-precio-row {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #16a34a; /* Verde */
+  width: 120px;
+  text-align: left;
+}
+
+/* Botones de acción en la fila */
+.servicio-actions-row {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-icon-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.1s, background-color 0.2s;
+  color: white;
+}
+
+.btn-icon-row:active { transform: scale(0.95); }
+
+.btn-edit-row { background-color: #f59e0b; }
+.btn-edit-row:hover { background-color: #d97706; }
+
+.btn-delete-row { background-color: #ef4444; }
+.btn-delete-row:hover { background-color: #dc2626; }
+
+
+/* --- MODAL DE FORMULARIO (Se mantiene intacto) --- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  backdrop-filter: blur(4px);
+}
+
+.form-modal {
+  background: white;
+  width: 400px;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+.form-modal h2 { margin-bottom: 20px; color: #1e293b; }
+.form-group-modal { margin-bottom: 15px; }
+.form-group-modal label { display: block; margin-bottom: 5px; font-weight: bold; color: #64748b; }
+.input-modal { width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 1.1rem; box-sizing: border-box; }
+.input-modal:focus { outline: none; border-color: #3b82f6; }
+.modal-actions { display: flex; gap: 15px; margin-top: 25px; }
+.btn-modal { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; color: white; }
+.btn-cancel { background-color: #94a3b8; }
+.btn-save { background-color: #3b82f6; }

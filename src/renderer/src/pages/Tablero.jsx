@@ -30,27 +30,13 @@ function Tablero( { nuevoCarro, setNuevoCarro }) {
 
   // 4. Efecto de carga y auto-refresco
   useEffect(() => {
-    actualizarTablero(); // Carga inicial
-
-    // Configurar intervalo para refrescar cada 5 segundos
-    // Esto asegura que si llega un nuevo servicio, el contador suba solo
-    //const intervalo = setInterval(actualizarTablero, 5000);
-
-    // Limpieza al desmontar (importante para evitar fugas de memoria)
-    //return () => clearInterval(intervalo);
+    
   }, [nuevoCarro]);
 
   return (
     <div className="board-services">
       <div className="head-board">
         <h2>Servicios</h2>
-        {/*QUITARRRRRR Botón opcional para forzar actualización manual */}
-        <img 
-          src={ botonPNG } 
-          alt="Refrescar" 
-          onClick={actualizarTablero} 
-          style={{cursor: 'pointer'}} 
-        />
       </div>
 
       <div className="board-panel">

@@ -1,0 +1,74 @@
+.balance-container {
+  animation: fadeIn 0.3s ease-out;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* --- TARJETAS DE KPI FINANCIERO --- */
+.kpi-financiero-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.kpi-card-fin {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  border: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+.kpi-card-fin h3 {
+  color: #64748b;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.kpi-card-fin .kpi-monto {
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+/* Colores condicionales */
+.text-ingreso { color: #16a34a; } /* Verde */
+.text-egreso { color: #ef4444; } /* Rojo */
+.text-neutral { color: #3b82f6; } /* Azul */
+.text-warning { color: #f59e0b; } /* Naranja (si hay pérdidas) */
+
+/* --- BOTÓN Y FILTRO --- */
+.balance-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn-add-gasto {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-add-gasto:hover { background-color: #dc2626; }
+
+/* Tabla de gastos recicla estilos de la de servicios/empleados */
+.gastos-list {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 15px;
+  border: 1px solid #e2e8f0;
+  max-height: 400px;
+  overflow-y: auto;
+}

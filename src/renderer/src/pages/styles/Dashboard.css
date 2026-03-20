@@ -61,7 +61,7 @@
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-  height: 350px; /* Altura fija para las gráficas */
+  height: 395px; /* Altura fija para las gráficas */
 }
 
 .chart-header { margin-bottom: 20px; font-weight: bold; color: #333; font-size: 1.1rem; }

@@ -9,17 +9,13 @@
     width: 100%;
     height: 55px;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
 }
 .head-board h2 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: bold;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
-.head-board img {
-    height: 40px;
-    width: 40px;
 }
 
 .board-panel {

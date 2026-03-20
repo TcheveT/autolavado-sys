@@ -14,8 +14,11 @@ initDB();
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 870,
+    width: 1000,
+    height: 900,
+    minWidth: 900,
+    minHeight: 650, 
+    icon: join(__dirname, '../../build/icon.ico'),
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? {  } : {}), // Restaurado el icono para Linux
@@ -58,8 +61,6 @@ app.whenReady().then(() => {
   // Es mejor hacerlo aquí, justo cuando la app está lista
   setupHandlers();
 
-  // IPC test (opcional, puedes borrarlo si no lo usas)
-  ipcMain.on('ping', () => console.log('pong'))
 
   createWindow()
 
